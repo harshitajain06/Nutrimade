@@ -1,50 +1,48 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
+import React from 'react';
+import { Image, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
+          source={require('@/assets/images/nutri.jpg')}
           style={styles.reactLogo}
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Nutrimade!</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
+          <ThemedText type="defaultSemiBold">Welcome to Nutimade, the ultimate nutrition companion tailored to help you achieve your health and wellness goals.</ThemedText> 
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+      <ThemedView style={[styles.stepContainer, styles.row]}>
+        <TouchableOpacity style={[styles.button, styles.googleButton]}>
+          <Icon name="google" size={24} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.facebookButton]}>
+          <Icon name="facebook" size={24} color="#fff" />
+        </TouchableOpacity>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -60,11 +58,52 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 70,
+  },
+  buttonContainer: {
+    marginTop: 20,
+    gap: 16,
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginVertical: 8,
+    marginLeft:20,
+    marginRight:20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'black',
+  },
+  googleButton: {
+    backgroundColor: '#DB4437',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 7,
+    flex: 0.4,
+    marginLeft:80,
+    borderRadius:10
+  },
+  facebookButton: {
+    backgroundColor: '#4267B2',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 7,
+    flex: 0.4,
+    marginRight:80,
+    borderRadius:10
+  },
   reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+    height: 250,
+    width: 'auto',
+    position: 'relative',
   },
 });
