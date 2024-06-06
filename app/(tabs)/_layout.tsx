@@ -19,12 +19,6 @@ export default function StackLayout() {
           title: 'Home',
         }}
       />
-      <Stack.Screen
-    name="Register"
-    options={{
-      title: 'Register',
-    }}
-  />
     </Stack>
     
   );

@@ -11,11 +11,14 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import {auth, db} from '../../config/firebase';
 import { createUserWithEmailAndPassword, sendEmailVerification, getAuth } from 'firebase/auth';
 import { FontAwesome } from '@expo/vector-icons'; // Assuming you're using Expo and FontAwesome icons
 
-const RegisterScreen = ({ navigation }) => {
+
+export default function RegisterScreen() {
+  const navigation = useNavigation();
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -31,7 +34,7 @@ const RegisterScreen = ({ navigation }) => {
 
             // Additional actions after successful sign-up, such as navigating to another screen
             console.log('Sign-up successful:', user);
-            navigation.navigate('LoginScreen');
+            navigation.navigate('WelcomePage');
       console.log('Full Name:', fullName);
       console.log('Email:', email);
       console.log('Password:', password);
@@ -170,6 +173,5 @@ const RegisterScreen = ({ navigation }) => {
       color: 'black',
     },
   });
-  
-  export default RegisterScreen;
+
   
