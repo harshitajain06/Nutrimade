@@ -7,7 +7,7 @@ const WelcomePage = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Home')}>
         <ImageBackground
-          source={require('@/assets/images/nutri.jpg')}
+          source={require('@/assets/images/nutri3.jpg')}
           style={styles.backgroundImage}
         >
           {/* Your other components/content here */}
@@ -29,14 +29,15 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
-    width: '100%', // Set width to cover the entire screen horizontally
+    width: '120%', // Set width to cover the entire screen horizontally
     height: '100%', // Set height to cover the entire screen vertically
+
   },
   heading: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 150,
-    color: 'white',
+    color: 'orange',
   },
   content: {
     flex: 1,
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   },
   normal: {
     fontSize: 20,
-    color: 'white',
+    color: 'orange',
     fontWeight: 'bold',
   },
 }); 

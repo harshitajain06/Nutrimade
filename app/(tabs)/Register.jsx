@@ -127,7 +127,7 @@ export default function RegisterScreen() {
       paddingHorizontal: 10,
     },
     signUpButton: {
-      backgroundColor: 'orange',
+      backgroundColor: '#2196F3',
       paddingVertical: 12,
       paddingHorizontal: 80,
       borderRadius: 20,
