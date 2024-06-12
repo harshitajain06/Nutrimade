@@ -19,6 +19,7 @@ import { FontAwesome } from '@expo/vector-icons'; // Assuming you're using Expo 
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
+
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -76,7 +77,7 @@ export default function RegisterScreen() {
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
          <View style={styles.footer}>
-         <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
       <Text style={styles.footerText}>Already have an account? Login</Text>
     </TouchableOpacity>
         </View>

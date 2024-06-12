@@ -7,8 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { FontAwesome } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/native';
 
-const LoginScreen = ({ navigation }) => {
+export default function LoginScreen() {
+    const navigation = useNavigation();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -45,7 +48,7 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Text style={styles.footerText}>Don't have an account? Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -141,5 +144,3 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
-
-export default LoginScreen;
