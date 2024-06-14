@@ -23,6 +23,7 @@ export default function HomePage() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerTitleAlign: 'center',
+          headerShown: false ,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             if (route.name === 'Modules') {
