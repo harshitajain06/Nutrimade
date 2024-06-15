@@ -1,24 +1,63 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
   TouchableOpacity,
-} from "react-native";
+  Alert,
+  ActivityIndicator
+} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import Toast from 'react-native-toast-message';
 
 export default function LoginScreen() {
-    const navigation = useNavigation();
-
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    // Implement login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+    if (!email || !password) {
+      Alert.alert('Error', 'Email and password are required!');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'Login successful!'
+      });
+
+      console.log('User:', user);
+      navigation.navigate('HomePage');
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleError = (error) => {
+    let errorMessage = 'Something went wrong. Please try again.';
+
+    if (error.code === 'auth/user-not-found') {
+      errorMessage = 'No user found with this email.';
+    } else if (error.code === 'auth/wrong-password') {
+      errorMessage = 'Incorrect password. Please try again.';
+    } else if (error.code === 'auth/invalid-email') {
+      errorMessage = 'The email address is not valid.';
+    }
+
+    Alert.alert('Login Error', errorMessage);
   };
 
   return (
@@ -44,8 +83,12 @@ export default function LoginScreen() {
           secureTextEntry={true}
         />
       </View>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -65,9 +108,10 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      <Toast />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
