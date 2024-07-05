@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,10 +10,12 @@ import {
   useColorScheme
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { FontAwesome } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
+import * as Google from 'expo-auth-session/providers/google';
 import { auth } from '../../config/firebase';
+import { AuthSession } from 'expo';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
@@ -22,8 +24,28 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: '<YOUR_WEB_CLIENT_ID>', // Replace with your web client ID
+  });
+
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then((userCredential) => {
+          console.log('Google Sign-In successful:', userCredential.user);
+          navigation.navigate('WelcomePage');
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    }
+  }, [response]);
 
   const handleSignUp = async () => {
     if (!fullName || !email || !password) {
@@ -121,7 +143,7 @@ export default function RegisterScreen() {
             <FontAwesome name="facebook" size={24} color="blue" style={styles.icon} />
             <Text style={styles.socialButtonText}>Facebook</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.socialButton}>
+          <TouchableOpacity style={styles.socialButton} onPress={() => promptAsync()}>
             <FontAwesome name="google" size={24} color="red" style={styles.icon} />
             <Text style={styles.socialButtonText}>Google</Text>
           </TouchableOpacity>
@@ -226,15 +248,15 @@ const darkStyles = StyleSheet.create({
     color: '#fff',
   },
   signUpButton: {
-    backgroundColor: '#1a73e8',
+    backgroundColor: '#333',
   },
   buttonText: {
     color: '#fff',
   },
   footerText: {
-    color: '#4d90fe',
+    color: '#4BB543',
   },
   feelingLuckyText: {
-    color: '#fff',
+    color: '#00FF00',
   },
 });

@@ -38,7 +38,7 @@ export default function LoginScreen() {
       });
 
       console.log('User:', user);
-      navigation.navigate('HomePage');
+      navigation.navigate('WelcomePage');
     } catch (error) {
       handleError(error);
     } finally {

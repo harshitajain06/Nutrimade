@@ -54,7 +54,7 @@ export default function HomePage() {
       >
         <Tab.Screen name="Modules" component={ModulesScreen} />
         <Tab.Screen name="Videos" component={VideosScreen} />
-        <Tab.Screen name="Certifications" component={CertificationsScreen} />
+        {/* <Tab.Screen name="Certifications" component={CertificationsScreen} /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
