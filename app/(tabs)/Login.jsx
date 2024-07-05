@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,14 +10,42 @@ import {
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 import Toast from 'react-native-toast-message';
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: '854259513422-a39t73u9efpukif6oev8mgteqdd7ie1j.apps.googleusercontent.com', // Replace with your actual client ID
+  });
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      const auth = getAuth();
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then((userCredential) => {
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: 'Login successful!',
+          });
+          navigation.navigate('WelcomePage');
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    }
+  }, [response]);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -34,7 +62,7 @@ export default function LoginScreen() {
       Toast.show({
         type: 'success',
         text1: 'Success',
-        text2: 'Login successful!'
+        text2: 'Login successful!',
       });
 
       console.log('User:', user);
@@ -98,11 +126,7 @@ export default function LoginScreen() {
       <Text style={styles.feelingLuckyText}>Login with</Text>
       <View style={styles.loginWithContainer}>
         <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity style={styles.socialButton}>
-            <FontAwesome name="facebook" size={24} color="blue" style={styles.icon} />
-            <Text style={styles.socialButtonText}>Facebook</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.socialButton}>
+          <TouchableOpacity style={styles.socialButton} onPress={() => promptAsync()} disabled={!request}>
             <FontAwesome name="google" size={24} color="red" style={styles.icon} />
             <Text style={styles.socialButtonText}>Google</Text>
           </TouchableOpacity>

@@ -25,7 +25,7 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: '<YOUR_WEB_CLIENT_ID>', // Replace with your web client ID
+    clientId: '854259513422-a39t73u9efpukif6oev8mgteqdd7ie1j.apps.googleusercontent.com', // Replace with your web client ID
   });
 
   const colorScheme = useColorScheme();
@@ -139,10 +139,10 @@ export default function RegisterScreen() {
       <Text style={[styles.feelingLuckyText, isDarkMode && darkStyles.feelingLuckyText]}>Sign up with</Text>
       <View style={styles.signUpWithContainer}>
         <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity style={styles.socialButton}>
+          {/* <TouchableOpacity style={styles.socialButton}>
             <FontAwesome name="facebook" size={24} color="blue" style={styles.icon} />
             <Text style={styles.socialButtonText}>Facebook</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={styles.socialButton} onPress={() => promptAsync()}>
             <FontAwesome name="google" size={24} color="red" style={styles.icon} />
             <Text style={styles.socialButtonText}>Google</Text>

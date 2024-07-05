@@ -36,14 +36,14 @@ export default function HomeScreen() {
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
       </ThemedView>
-      <ThemedView style={[styles.stepContainer, styles.row]}>
+      {/* <ThemedView style={[styles.stepContainer, styles.row]}>
         <TouchableOpacity style={[styles.button, styles.googleButton]}>
           <Icon name="google" size={24} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.facebookButton]}>
           <Icon name="facebook" size={24} color="#fff" />
         </TouchableOpacity>
-      </ThemedView>
+      </ThemedView> */}
     </ParallaxScrollView>
   );
 }
