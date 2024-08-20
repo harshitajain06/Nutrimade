@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  useColorScheme,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
@@ -24,8 +25,10 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: '854259513422-a39t73u9efpukif6oev8mgteqdd7ie1j.apps.googleusercontent.com', // Replace with your actual client ID
+    clientId: '854259513422-msmsqlpd588d3n1us5lpng7nlatq8oqt.apps.googleusercontent.com', // Replace with your actual client ID
   });
+
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     if (response?.type === 'success') {
@@ -88,6 +91,10 @@ export default function LoginScreen() {
     Alert.alert('Login Error', errorMessage);
   };
 
+  const isDarkMode = colorScheme === 'dark';
+
+  const styles = isDarkMode ? darkStyles : lightStyles;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
@@ -96,6 +103,7 @@ export default function LoginScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your email"
+          placeholderTextColor={isDarkMode ? '#999' : '#666'}
           onChangeText={text => setEmail(text)}
           value={email}
           keyboardType="email-address"
@@ -106,6 +114,7 @@ export default function LoginScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your password"
+          placeholderTextColor={isDarkMode ? '#999' : '#666'}
           onChangeText={text => setPassword(text)}
           value={password}
           secureTextEntry={true}
@@ -137,17 +146,19 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const lightStyles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
     fontWeight: 'bold',
+    color: '#000',
   },
   inputContainer: {
     width: '100%',
@@ -164,6 +175,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
+    color: '#000',
   },
   loginButton: {
     backgroundColor: '#2196F3',
@@ -210,5 +222,84 @@ const styles = StyleSheet.create({
   feelingLuckyText: {
     marginTop: 10,
     color: 'black',
+  },
+});
+
+const darkStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    backgroundColor: '#121212',
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 15,
+  },
+  label: {
+    marginBottom: 5,
+    color: '#bbb',
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    color: '#fff',
+  },
+  loginButton: {
+    backgroundColor: '#1E88E5',
+    paddingVertical: 12,
+    paddingHorizontal: 80,
+    borderRadius: 20,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  footer: {
+    marginTop: 20,
+    marginBottom: 40,
+  },
+  footerText: {
+    color: '#90caf9',
+  },
+  loginWithContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  socialButtonsContainer: {
+    flexDirection: 'row',
+  },
+  socialButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    marginRight: 10,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  socialButtonText: {
+    color: '#90caf9',
+  },
+  feelingLuckyText: {
+    marginTop: 10,
+    color: '#fff',
   },
 });
