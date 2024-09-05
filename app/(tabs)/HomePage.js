@@ -23,7 +23,7 @@ export default function HomePage() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerTitleAlign: 'center',
-          headerShown: false ,
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             if (route.name === 'Modules') {
@@ -46,11 +46,9 @@ export default function HomePage() {
             }
             return <CustomTabLabel label={label} />;
           },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
         })}
-        tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        }}
       >
         <Tab.Screen name="Modules" component={ModulesScreen} />
         <Tab.Screen name="Videos" component={VideosScreen} />

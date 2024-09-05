@@ -5,12 +5,12 @@ import { getFirestore, collection } from "firebase/firestore";
 import { getStorage } from 'firebase/storage';
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBN2Nqtq2xq7EoroYr3ecNDi1h-yKsEP0I",
-  authDomain: "nutrimade-9ec04.firebaseapp.com",
-  projectId: "nutrimade-9ec04",
-  storageBucket: "nutrimade-9ec04.appspot.com",
-  messagingSenderId: "777106934029",
-  appId: "1:777106934029:web:8a0d53f9f029c588660844"
+  apiKey: "AIzaSyBV2Q-_nJIcRHGUbhtwu8eKN9UAeaPvwQw",
+  authDomain: "fir-authentication-8abb6.firebaseapp.com",
+  projectId: "fir-authentication-8abb6",
+  storageBucket: "fir-authentication-8abb6.appspot.com",
+  messagingSenderId: "854259513422",
+  appId: "1:854259513422:web:9a3d38f04501b643f0ab1f"
 };
 
 // Initialize Firebase
