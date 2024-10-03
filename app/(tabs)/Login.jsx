@@ -12,6 +12,7 @@ import {
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import Toast from 'react-native-toast-message';
@@ -25,15 +26,15 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: '854259513422-msmsqlpd588d3n1us5lpng7nlatq8oqt.apps.googleusercontent.com', // Replace with your actual client ID
+    clientId: '854259513422-a39t73u9efpukif6oev8mgteqdd7ie1j.apps.googleusercontent.com', // Replace with your actual client ID
+    redirectUri: 'https://auth.expo.io/harshitaforever.Nutrimade',
+  scopes: ['profile', 'email'],
   });
-
-  const colorScheme = useColorScheme();
 
   useEffect(() => {
     if (response?.type === 'success') {
       const { id_token } = response.params;
-      const auth = getAuth();
+      // const auth = getAuth();
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then((userCredential) => {
@@ -58,7 +59,7 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const auth = getAuth();
+      // const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
@@ -68,7 +69,6 @@ export default function LoginScreen() {
         text2: 'Login successful!',
       });
 
-      console.log('User:', user);
       navigation.navigate('WelcomePage');
     } catch (error) {
       handleError(error);
@@ -91,8 +91,8 @@ export default function LoginScreen() {
     Alert.alert('Login Error', errorMessage);
   };
 
+  const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
-
   const styles = isDarkMode ? darkStyles : lightStyles;
 
   return (
@@ -135,7 +135,7 @@ export default function LoginScreen() {
       <Text style={styles.feelingLuckyText}>Login with</Text>
       <View style={styles.loginWithContainer}>
         <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity style={styles.socialButton} onPress={() => promptAsync()} disabled={!request}>
+          <TouchableOpacity style={styles.socialButton} onPress={() => promptAsync()}>
             <FontAwesome name="google" size={24} color="red" style={styles.icon} />
             <Text style={styles.socialButtonText}>Google</Text>
           </TouchableOpacity>
